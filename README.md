@@ -1,4 +1,4 @@
-# VideoGameSalesAnalyzer
+# Video Game Sales Analyzer
 
 This program is tailored for the "Video Game Sales.txt" document.
 It is started by calling (analyzer-start), or just running the program in DrRacket.
