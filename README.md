@@ -19,7 +19,9 @@ You have made 0 choices so far.
 4
 
 Please enter the genre: 
+
 "Sports"
+
 Please make a selection.
 You have up to 2 left.
 1. Title
