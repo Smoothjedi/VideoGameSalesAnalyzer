@@ -2,6 +2,8 @@
 
 This program is tailored for the "Video Game Sales.txt" document.
 It is started by calling (analyzer-start), or just running the program in DrRacket.
+Note: Some of the text in this document may look weird in the GitHub editor and not reflect program output exactly. 
+Github is trying to be too "helpful" with the numbering and other text
 # Core features
 Filters on Genre:
 
