@@ -187,8 +187,8 @@
 ;; Parses the year range from a string
 (define (parse-years input)
   (map string->number
-             (map string-trim
-                  (string-split input "-"))))
+       (map string-trim
+            (string-split input "-"))))
 
 ;; Sorts the years in ascending order
 (define (sort-years input)
@@ -225,7 +225,8 @@
                  filtered-list)
                 ))
              ])))
-    (define (region)
+  ;; Subfunction for filtering region.
+  (define (region)
     (displayln "Which region?")
     (displayln-each region-options)
     (let ([input (read-menu-option region-options)])
@@ -234,7 +235,8 @@
              (region)]
             [else
              ;; input guaranteed to be a number; use from-just!
-             (let ([region-choice (from-just! input)])             
+             (let ([region-choice (from-just! input)])
+               ;; Conditions pull the respective lambda
                (cond [(= region-choice 1)
                       (menu-loop
                        (filter
@@ -333,73 +335,73 @@
   (cond [(empty? filtered-list)
          (displayln "Your latest filter choice has eliminated all possible results.")
          nothing]
+        ;; Base Case: If three options have been selected, exit 
+        [(> submission-count 2)
+         filtered-list]
         [else (display-counter-instruction submission-count)
               ;; display available options, collect data
               (displayln-each remaining-menu-options)
-              (displayln "You have made @{submission-count} choices so far.")
-              ;; Base Case: If three options have been selected, exit
-              (if (> submission-count 2)
-                  filtered-list
-                  (let ([input (read-menu-option remaining-menu-options)])
-                    ;; if an invalid menu option was selected, start over
-                    (cond [(nothing? input)
-                           (displayln "Sorry, that is not a valid option")
-                           (menu-loop remaining-menu-options submission-count filtered-list)]
-                          [else
-                           ;; input guaranteed to be a number; use from-just!
-                           (let ([choice (from-just! input)])                    
-                             (cond [(= choice 1)
-                                    ;; Check to make sure the option selection wasn't already eliminated
-                                    (cond [(empty-menu-option? title-option remaining-menu-options)
-                                           (display-choice-error choice)
-                                           (menu-loop remaining-menu-options submission-count filtered-list)
-                                           ]
-                                          ;; Call the title subfunction
-                                          [else (title-choice)])
-                                    ]
-                                   [(= choice 2) ;; Perform action for Option 2
-                                    ;; Check to make sure the option selection wasn't already eliminated
-                                    (cond [(empty-menu-option? region-option remaining-menu-options)
-                                           (display-choice-error choice)
-                                           (menu-loop remaining-menu-options submission-count filtered-list)
-                                           ]
-                                          ;; Call the platform subfunction
-                                          [else (region)]
-                                          )]
-                                   [(= choice 3) ;; Perform action for Option 3
-                                    ;; Check to make sure the option selection wasn't already eliminated
-                                    (cond [(empty-menu-option? year-option remaining-menu-options)
-                                           (display-choice-error choice)
-                                           (menu-loop remaining-menu-options submission-count filtered-list)
-                                           ]
-                                          ;; Call the year subfunction
-                                          [else (year-choice)])
-                                    ]
-                                   [(= choice 4) ;; Perform action for Option 4
-                                    ;; Check to make sure the option selection wasn't already eliminated
-                                    (cond [(empty-menu-option? genre-option remaining-menu-options)
-                                           (display-choice-error choice)
-                                           (menu-loop remaining-menu-options submission-count filtered-list)
-                                           ]
-                                          ;; Call the genre subfunction
-                                          [else (genre-choice)])
-                                    ]
-                                   [(= choice 5) ;; Perform action for Option 5
-                                    ;; Check to make sure the option selection wasn't already eliminated
-                                    (cond [(empty-menu-option? publisher-option remaining-menu-options)
-                                           (display-choice-error choice)
-                                           (menu-loop remaining-menu-options submission-count filtered-list)
-                                           ]
-                                          ;; Call the publisher subfunction
-                                          [else (publisher-choice)])
-                                    ]
-                                   ;; Base Case: Return the current list
-                                   [(= choice 6) 
-                                    filtered-list]
-                                   [else
-                                    (display-choice-error choice)
-                                    (menu-loop remaining-menu-options submission-count filtered-list)]
-                                   ))])))]))
+              (displayln "You have made @{submission-count} choices so far.")             
+              (let ([input (read-menu-option remaining-menu-options)])
+                ;; if an invalid menu option was selected, start over
+                (cond [(nothing? input)
+                       (displayln "Sorry, that is not a valid option")
+                       (menu-loop remaining-menu-options submission-count filtered-list)]
+                      [else
+                       ;; input guaranteed to be a number; use from-just!
+                       (let ([choice (from-just! input)])                    
+                         (cond [(= choice 1)
+                                ;; Check to make sure the option selection wasn't already eliminated
+                                (cond [(empty-menu-option? title-option remaining-menu-options)
+                                       (display-choice-error choice)
+                                       (menu-loop remaining-menu-options submission-count filtered-list)
+                                       ]
+                                      ;; Call the title subfunction
+                                      [else (title-choice)])
+                                ]
+                               [(= choice 2) ;; Perform action for Option 2
+                                ;; Check to make sure the option selection wasn't already eliminated
+                                (cond [(empty-menu-option? region-option remaining-menu-options)
+                                       (display-choice-error choice)
+                                       (menu-loop remaining-menu-options submission-count filtered-list)
+                                       ]
+                                      ;; Call the platform subfunction
+                                      [else (region)]
+                                      )]
+                               [(= choice 3) ;; Perform action for Option 3
+                                ;; Check to make sure the option selection wasn't already eliminated
+                                (cond [(empty-menu-option? year-option remaining-menu-options)
+                                       (display-choice-error choice)
+                                       (menu-loop remaining-menu-options submission-count filtered-list)
+                                       ]
+                                      ;; Call the year subfunction
+                                      [else (year-choice)])
+                                ]
+                               [(= choice 4) ;; Perform action for Option 4
+                                ;; Check to make sure the option selection wasn't already eliminated
+                                (cond [(empty-menu-option? genre-option remaining-menu-options)
+                                       (display-choice-error choice)
+                                       (menu-loop remaining-menu-options submission-count filtered-list)
+                                       ]
+                                      ;; Call the genre subfunction
+                                      [else (genre-choice)])
+                                ]
+                               [(= choice 5) ;; Perform action for Option 5
+                                ;; Check to make sure the option selection wasn't already eliminated
+                                (cond [(empty-menu-option? publisher-option remaining-menu-options)
+                                       (display-choice-error choice)
+                                       (menu-loop remaining-menu-options submission-count filtered-list)
+                                       ]
+                                      ;; Call the publisher subfunction
+                                      [else (publisher-choice)])
+                                ]
+                               ;; Base Case: Return the current list
+                               [(= choice 6) 
+                                filtered-list]
+                               [else
+                                (display-choice-error choice)
+                                (menu-loop remaining-menu-options submission-count filtered-list)]
+                               ))]))]))
 
 ;; This sorts the data given by user selected fields 
 (define (sort-results unsorted-results)
