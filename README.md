@@ -97,6 +97,7 @@ Rank: 2 Title: Super Mario Bros. Platform: NES Year: 1985 Genre: Platform Publis
 ...
 
 Finally, has an option to repeat or exit:
+
 Would you like to analyze the data again?
 1. Analyze again
 Any other input will exit!
