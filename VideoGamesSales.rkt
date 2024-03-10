@@ -7,13 +7,13 @@
   "Video Games Sales.csv")
 
 (define title-option "1. Title")
-(define platform-option "2. Platform")
+(define region-option "2. Region")
 (define year-option "3. Year")
 (define genre-option "4. Genre")
 (define publisher-option "5. Publisher")
 (define no-more-filters-option "6. No more filters")
 (define rating-sort-option "1. Rating")
-(define sales-sort-option "2. Sales")
+(define rank-sort-option "2. Rank")
 (define north-america-region-option "1. North America")
 (define europe-region-option "2. Europe")
 (define japan-region-option "3. Japan")
@@ -37,11 +37,11 @@
   (for-each displayln lst))
 
 (define sort-options
-  (list rating-sort-option sales-sort-option))
+  (list rating-sort-option rank-sort-option))
 
 (define menu-options
   (list title-option
-        platform-option
+        region-option
         year-option
         genre-option
         publisher-option
@@ -98,6 +98,47 @@
 
 ;; The label for a generated list of structs from the file
 (define game-data-list (create-game-data-list))
+
+;; Cluster of lambda functions that will zero out categories not selected
+(define (filter-region-na)
+  (lambda (x)(struct-copy
+              game-data x
+              [europe 0]
+              [japan 0]
+              [rest-of-world 0]
+              [global 0])))
+(define (filter-region-europe)
+  (lambda (x)(struct-copy
+              game-data x
+              [north-america 0]
+              [japan 0]
+              [rest-of-world 0]
+              [global 0])))
+(define (filter-region-japan)
+  (lambda (x)(struct-copy
+              game-data x
+              [north-america 0]
+              [europe 0]
+              [rest-of-world 0]
+              [global 0])))
+(define (filter-region-row)
+  (lambda (x)(struct-copy
+              game-data x
+              [north-america 0]
+              [europe 0]
+              [japan 0]
+              [global 0])))
+(define (filter-region-global)
+  (lambda (x)(struct-copy
+              game-data x
+              [north-america 0]
+              [europe 0]
+              [japan 0]
+              [rest-of-world 0])))
+
+;; Accepts a lambda corresponding to a selected region and applies it
+(define (filter-region region-to-filter lst)
+  (map (region-to-filter) lst))
 
 ;; A cluster of filters and their lambdas
 (define (filter-not-string=? value)
@@ -184,24 +225,57 @@
                  filtered-list)
                 ))
              ])))
-  ;; subfunction for collecting platform and sorting the list
-  (define (platform-choice)
-    (displayln "Please enter your platform: ")
-    (let ([input (read-string)])
+    (define (region)
+    (displayln "Which region?")
+    (displayln-each region-options)
+    (let ([input (read-menu-option region-options)])
       (cond [(nothing? input)
-             (displayln "Invalid input.")
-             (platform-choice)]
+             (displayln "Sorry, that is not a valid option.")
+             (region)]
             [else
-             (let ([platform (from-just! input)])              
-               (menu-loop
-                (filter
-                 (filter-not-string=? platform-option)
-                 remaining-menu-options)
-                (+ submission-count 1)
-                (filter
-                 (filter-platform platform)
-                 filtered-list)
-                ))])))
+             ;; input guaranteed to be a number; use from-just!
+             (let ([region-choice (from-just! input)])             
+               (cond [(= region-choice 1)
+                      (menu-loop
+                       (filter
+                        (filter-not-string=? region-option)
+                        remaining-menu-options)
+                       (+ submission-count 1)                       
+                       (filter-region filter-region-na filtered-list)
+                       )]
+                     [(= region-choice 2)
+                      (menu-loop
+                       (filter
+                        (filter-not-string=? region-option)
+                        remaining-menu-options)
+                       (+ submission-count 1)                       
+                       (filter-region filter-region-europe filtered-list)
+                       )]
+                     [(= region-choice 3)
+                      (menu-loop
+                       (filter
+                        (filter-not-string=? region-option)
+                        remaining-menu-options)
+                       (+ submission-count 1)                       
+                       (filter-region filter-region-japan filtered-list)
+                       )]
+                     [(= region-choice 4)
+                      (menu-loop
+                       (filter
+                        (filter-not-string=? region-option)
+                        remaining-menu-options)
+                       (+ submission-count 1)                       
+                       (filter-region filter-region-row filtered-list)
+                       )]
+                     [(= region-choice 5)
+                      (menu-loop
+                       (filter
+                        (filter-not-string=? region-option)
+                        remaining-menu-options)
+                       (+ submission-count 1)                       
+                       (filter-region filter-region-global filtered-list)
+                       )]
+                     ))])))
   ;; subfunction for collecting years and sorting the list
   (define (year-choice)
     (displayln "Please enter the year range (i.e. \"2001 - 2004\": ")
@@ -285,12 +359,12 @@
                                     ]
                                    [(= choice 2) ;; Perform action for Option 2
                                     ;; Check to make sure the option selection wasn't already eliminated
-                                    (cond [(empty-menu-option? platform-option remaining-menu-options)
+                                    (cond [(empty-menu-option? region-option remaining-menu-options)
                                            (display-choice-error choice)
                                            (menu-loop remaining-menu-options submission-count filtered-list)
                                            ]
                                           ;; Call the platform subfunction
-                                          [else (platform-choice)]
+                                          [else (region)]
                                           )]
                                    [(= choice 3) ;; Perform action for Option 3
                                     ;; Check to make sure the option selection wasn't already eliminated
@@ -329,33 +403,6 @@
 
 ;; This sorts the data given by user selected fields 
 (define (sort-results unsorted-results)
-  ;; A sub function that gets region information
-  ;; Made a subfunction so if an invalid region selection is made, the user 
-  ;; can re-enter it option without starting completely over
-  (define (region-sort)
-    (displayln "Which region?")
-    (displayln-each region-options)
-    (let ([input (read-menu-option region-options)])
-      (cond [(nothing? input)
-             (displayln "Sorry, that is not a valid option.")
-             (region-sort)]
-            [else
-             ;; input guaranteed to be a number; use from-just!
-             (let ([region-choice (from-just! input)])             
-               (cond [(= region-choice 1)
-                      (sort unsorted-results > #:key game-data-north-america)]
-                     [(= region-choice 2)
-                      (sort unsorted-results > #:key game-data-europe)]
-                     [(= region-choice 3)
-                      (sort unsorted-results > #:key game-data-japan)]
-                     [(= region-choice 4)
-                      (sort unsorted-results > #:key game-data-rest-of-world)]
-                     [(= region-choice 5)
-                      (sort unsorted-results > #:key game-data-global)]
-                     [else
-                      (display-choice-error region-choice)
-                      (sort-results unsorted-results)]
-                     ))])))
   ;; Request selected option and sorts by it.
   ;; If an invalid input was detected, ask again.
   (displayln "How would you like your results sorted?")
@@ -370,11 +417,12 @@
                [(= sort-choice 1)
                 (sort unsorted-results > #:key game-data-review)]
                [(= sort-choice 2)
-                (region-sort)]
+                (sort unsorted-results < #:key game-data-rank)]
                ))]
           )))
 
-;; Recursively prints the data in the list, or an empty line if empty. 
+;; Recursively prints the data in the list, or an empty line if empty.
+;; Will not print a category that was set to zero.
 (define (print-game-data-list game-data-list)
   (cond
     [(empty? game-data-list) (displayln "")]
@@ -386,11 +434,16 @@
        (display "Year: @{(game-data-year game-data)} ")
        (display "Genre: @{(game-data-genre game-data)} ")
        (display "Publisher: @{(game-data-publisher game-data)} ")
-       (display "North America: @{(game-data-north-america game-data)} ")
-       (display "Europe: @{(game-data-europe game-data)} ")
-       (display "Japan: @{(game-data-japan game-data)} ")
-       (display "Rest of World: @{(game-data-rest-of-world game-data)} ")
-       (display "Global: @{(game-data-global game-data)} ")
+       (unless (= (game-data-north-america game-data) 0)
+         (display "North America: @{(game-data-north-america game-data)} "))
+       (unless (= (game-data-europe game-data) 0)
+         (display "Europe: @{(game-data-europe game-data)} "))
+       (unless (= (game-data-japan game-data) 0)
+         (display "Japan: @{(game-data-japan game-data)} "))
+       (unless (= (game-data-rest-of-world game-data) 0)
+         (display "Rest of World: @{(game-data-rest-of-world game-data)} "))
+       (unless (= (game-data-global game-data) 0)
+         (display "Global: @{(game-data-global game-data)} "))
        (displayln "Rating: @{(game-data-review game-data)} ")
 
        (print-game-data-list
