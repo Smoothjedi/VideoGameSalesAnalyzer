@@ -58,6 +58,7 @@ How would you like your results sorted?
 
 1
 Rank: 807 Title: SSX Tricky Platform: PS2 Year: 2001 Genre: Sports Publisher: Electronic Arts North America: 0.85 Rating: 92.54 
+
 Rank: 1036 Title: NCAA Football 2003 Platform: PS2 Year: 2002 Genre: Sports Publisher: Electronic Arts North America: 1.16 Rating: 91.36 
 ...
 
@@ -91,6 +92,7 @@ How would you like your results sorted?
 2
 
 Rank: 1 Title: Wii Sports Platform: Wii Year: 2006 Genre: Sports Publisher: Nintendo North America: 40.43 Europe: 28.39 Japan: 3.77 Rest of World: 8.54 Global: 81.12 Rating: 76.28 
+
 Rank: 2 Title: Super Mario Bros. Platform: NES Year: 1985 Genre: Platform Publisher: Nintendo North America: 29.08 Europe: 3.58 Japan: 6.81 Rest of World: 0.77 Global: 40.24 Rating: 91
 ...
 
