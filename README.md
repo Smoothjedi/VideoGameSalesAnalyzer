@@ -31,6 +31,7 @@ You have up to 2 left.
 You have made 1 choices so far.
 
 Filters by Region:
+
 2
 
 Which region?
@@ -48,50 +49,67 @@ You have up to 1 left.
 3. Year
 5. Publisher
 6. No more filters
+   
 You have made 2 choices so far.
 
 Filters by Date, and reverses the date input:
+
 3
+
 Please enter the year range (i.e. "2001 - 2004": 
 "2002-2001"
 Please make a selection.
 You have up to 0 left.
 
 Sorts by Rating or Rank, here Rating specifically:
+
 How would you like your results sorted?
 1. Rating
 2. Rank
 
 1
+
 Rank: 807 Title: SSX Tricky Platform: PS2 Year: 2001 Genre: Sports Publisher: Electronic Arts North America: 0.85 Rating: 92.54 
 
 Rank: 1036 Title: NCAA Football 2003 Platform: PS2 Year: 2002 Genre: Sports Publisher: Electronic Arts North America: 1.16 Rating: 91.36 
+
 ...
 
 Handles partial match for Publisher, and all data are case insensitive:
+
 You have up to 3 left.
+
 1. Title
 2. Region
 3. Year
 4. Genre
 5. Publisher
 6. No more filters
+7. 
 You have made 0 choices so far.
+
 5
+
 Please enter the genre: 
+
 "ten"
+
 Please make a selection.
+
 You have up to 2 left.
 1. Title
 2. Region
 3. Year
 4. Genre
 6. No more filters
+
 You have made 1 choices so far.
 
 Sorts by Rank:
 6
+
 How would you like your results sorted?
+
 1. Rating
 2. Rank
 
@@ -105,7 +123,9 @@ Rank: 2 Title: Super Mario Bros. Platform: NES Year: 1985 Genre: Platform Publis
 Finally, has an option to repeat or exit:
 
 Would you like to analyze the data again?
+
 1. Analyze again
+
 Any other input will exit!
 fasdf
 Thank you for using the analyzer!
