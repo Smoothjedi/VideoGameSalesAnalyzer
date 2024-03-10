@@ -14,8 +14,10 @@ You have up to 3 left.
 4. Genre
 5. Publisher
 6. No more filters
+
 You have made 0 choices so far.
 4
+
 Please enter the genre: 
 "Sports"
 Please make a selection.
@@ -25,17 +27,21 @@ You have up to 2 left.
 3. Year
 5. Publisher
 6. No more filters
+
 You have made 1 choices so far.
 
 Filters by Region:
 2
+
 Which region?
 1. North America
 2. Europe
 3. Japan
 4. Rest of World
 5. Global
+
 1
+
 Please make a selection.
 You have up to 1 left.
 1. Title
